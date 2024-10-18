@@ -339,7 +339,7 @@
 
     }
     #main-navigation-wrapper .navbar-nav > li > .dropdown-submenu > li > a {
-        color: #888888;
+        color: #fff;
         font-weight: 600;
 
     }
@@ -373,7 +373,7 @@
         border: none;
         content: "\f077";
         top: 15px;
-        color: #333;
+        color: #fff;
     }
     .main-menu-two .navbar-nav .dopdown-nav-toggler:before {
         color: #fff !important;

@@ -20,15 +20,18 @@ switch ($q) {
 
         if (isset($_REQUEST['search']) && !empty($_REQUEST['search'])) {
             $search = $_REQUEST['search'];
-            $where  = "AND CONCAT_WS(' ', sc.categoria, s.departamento, s.oficina, s.creacion, s.nro_oficina) LIKE '%$search%'";
+            $where  = "AND CONCAT_WS(' ', sc.categoria, s.pais, s.departamento, s.oficina, s.creacion, s.nro_oficina) LIKE '%$search%'";
         }
 
-        $db->setQuery("SELECT SQL_CALC_FOUND_ROWS s.id_sede, s.id_sede_categoria,sc.categoria, s.departamento, s.id_sede_responsable, sr.nombre, s.nro_oficina, s.oficina, s.direccion, s.telefono, s.coordenadas, DATE_FORMAT(s.creacion,'%d/%m/%Y %H:%i:%s') AS fecha, CASE s.estado WHEN '1' THEN 'Activo' WHEN '0' THEN 'Inactivo' END AS nombre_estado, s.interino,
-            CASE s.interino WHEN '1' THEN 'ACTIVO' WHEN '0' THEN 'INACTIVO' END AS interino_str, s.obs_interino
-            FROM sedes s
-            LEFT JOIN sedes_categorias sc ON s.id_sede_categoria=sc.id_sede_categoria
-            LEFT JOIN sedes_responsables sr ON s.id_sede_responsable=sr.id_sede_responsable
-            WHERE 1=1 $where ORDER BY $sort $order LIMIT $offset, $limit");
+        $db->setQuery(" SELECT SQL_CALC_FOUND_ROWS s.id_sede, s.pais, s.id_sede_categoria,sc.categoria, s.departamento, 
+                        s.id_sede_responsable, sr.nombre, s.nro_oficina, s.oficina, s.direccion, s.telefono, s.coordenadas, 
+                        DATE_FORMAT(s.creacion,'%d/%m/%Y %H:%i:%s') AS fecha, 
+                        CASE s.estado WHEN '1' THEN 'Activo' WHEN '0' THEN 'Inactivo' END AS nombre_estado, s.interino,
+                        CASE s.interino WHEN '1' THEN 'ACTIVO' WHEN '0' THEN 'INACTIVO' END AS interino_str, s.obs_interino
+                        FROM sedes s
+                        LEFT JOIN sedes_categorias sc ON s.id_sede_categoria=sc.id_sede_categoria
+                        LEFT JOIN sedes_responsables sr ON s.id_sede_responsable=sr.id_sede_responsable
+                        WHERE 1=1 $where ORDER BY $sort $order LIMIT $offset, $limit");
         $rows = $db->loadObjectList();
 
         $db->setQuery("SELECT FOUND_ROWS() as total");
@@ -43,7 +46,7 @@ switch ($q) {
 
         echo json_encode($salida);
 
-        break;
+    break;
 
     case 'cambiar-estado':
         $db = DataBase::conectar();
@@ -59,16 +62,16 @@ switch ($q) {
             echo "Error al cambiar estado";
         }
 
-        break;
+    break;
 
-        case 'ver_categorias':
+    case 'ver_categorias':
         $db = DataBase::conectar();
         $db->setQuery("SELECT categoria, id_sede_categoria FROM sedes_categorias ORDER BY id_sede_categoria ASC");
         $rows = $db->loadObjectList();
         echo json_encode($rows);
-        break;
+    break;
 
-        case 'ver_responsables':
+    case 'ver_responsables':
         $db          = DataBase::conectar();
         $page        = $db->clearText($_GET['page']);
         $term        = $db->clearText($_GET['term']);
@@ -90,17 +93,18 @@ switch ($q) {
             $salida[] = ['id_sede_responsable' => '', 'nombre' => '', 'total_count' => ''];
         }
         echo json_encode($salida);
-        break;
+    break;
 
-        case 'ver_departamentos':
+    case 'ver_departamentos':
         $db          = DataBase::conectar();
         $page        = $db->clearText($_GET['page']);
         $term        = $db->clearText($_GET['term']);
+        $id_pais     = $db->clearText($_GET['id_pais']);
         $resultCount = 5;
         $end         = ($page - 1) * $resultCount;
 
         $db->setQuery("SELECT UPPER(departamento) AS departamento FROM departamentos WHERE
-            (departamento LIKE '%$term%') GROUP BY departamento ORDER BY departamento ASC LIMIT $end, $resultCount");
+            (departamento LIKE '%$term%')  AND id_pais = '$id_pais' GROUP BY departamento ORDER BY departamento ASC LIMIT $end, $resultCount");
 
         $rows = $db->loadObjectList();
         $db->setQuery("SELECT FOUND_ROWS() as total");
@@ -114,40 +118,69 @@ switch ($q) {
             $salida[] = ['departamento' => '', 'total_count' => ''];
         }
         echo json_encode($salida);
-        break;
+    break;
 
-        case 'cargar':
+    case 'ver_paises':
+        $db          = DataBase::conectar();
+        $page        = $db->clearText($_GET['page']);
+        $term        = $db->clearText($_GET['term']);
+        $resultCount = 5;
+        $end         = ($page - 1) * $resultCount;
+
+        $db->setQuery("SELECT id_pais, UPPER(pais) AS pais FROM paises WHERE
+            (pais LIKE '%$term%') GROUP BY pais ORDER BY pais ASC LIMIT $end, $resultCount");
+
+        $rows = $db->loadObjectList();
+        $db->setQuery("SELECT FOUND_ROWS() as total");
+        $total_row = $db->loadObject();
+        $count     = $total_row->total;
+        if ($rows) {
+            foreach ($rows as $r) {
+                $salida[] = ['pais' => $r->pais, 'total_count' => $count, 'id_pais' => $r->id_pais];
+            }
+        } else {
+            $salida[] = ['pais' => '', 'total_count' => '', 'id_pais' => ''];
+        }
+        echo json_encode($salida);
+    break;
+
+    case 'cargar':
 
         $db           = DataBase::conectar();
 
-        $categoria    = $db->clearText($_POST['categoria']);
-        $departamento = $db->clearText($_POST['departamento']);
-        $nro_oficina  = $db->clearText($_POST['nro_oficina']);
-        $oficina      = mb_convert_case($db->clearText($_POST['oficina']), MB_CASE_UPPER, "UTF-8");
-        $responsable   = $db->clearText($_POST['responsable']);
-        $direccion    = $db->clearText($_POST['direccion']);
-        $telefono     = $db->clearText($_POST['telefono']);
-        $interino     = $db->clearText($_POST['interino']) ?: 0;
-        $obs_interino    = $db->clearText($_POST['obs_interino']);
-        $longitud     = $db->clearText($_POST['lon_proceso']);
-        $latitud      = $db->clearText($_POST['lat_proceso']);
+        $categoria      = $db->clearText($_POST['categoria']);
+        $departamento   = $db->clearText($_POST['departamento']);
+        $pais           = $db->clearText($_POST['pais']);
+        $nro_oficina    = $db->clearText($_POST['nro_oficina']);
+        $oficina        = mb_convert_case($db->clearText($_POST['oficina']), MB_CASE_UPPER, "UTF-8");
+        $responsable    = $db->clearText($_POST['responsable']);
+        $direccion      = $db->clearText($_POST['direccion']);
+        $telefono       = $db->clearText($_POST['telefono']);
+        $interino       = $db->clearText($_POST['interino']) ?: 0;
+        $obs_interino   = $db->clearText($_POST['obs_interino']);
+        $longitud       = $db->clearText($_POST['lon_proceso']);
+        $latitud        = $db->clearText($_POST['lat_proceso']);
 
         if (empty($categoria)) {
-            echo "Error. Ingrese una categoria";
+            echo "Error. Ingrese una categoría";
+            exit;
+        }
+        if (empty($pais)) {
+            echo "Error. Ingrese un País";
             exit;
         }
         if (empty($departamento)) {
-            echo "Error. Ingrese una Departamento";
+            echo "Error. Ingrese un Departamento";
             exit;
         }
 
         if (empty($oficina)) {
-            echo "Error. Ingrese una oficina";
+            echo "Error. Ingrese una Oficina";
             exit;
         }
 
         if (empty($longitud) && empty($latitud)) {
-            echo "Error. Ingrese una ubicación";
+            echo "Error. Ingrese una Ubicación";
             exit;
         } else {
             $coordenadas = $latitud . ", " . $longitud;
@@ -163,30 +196,32 @@ switch ($q) {
             echo "Error. Responsable solo puede ser asignado hasta 2 sedes";
             exit;
         } ELSE {*/
-        $db->setQuery("INSERT INTO sedes (id_sede_categoria, departamento, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) VALUES ('$categoria','$departamento', '$responsable', '$nro_oficina','$oficina','$direccion','$telefono','$coordenadas', '$interino', '$obs_interino', NOW())");
+        $db->setQuery(" INSERT INTO sedes (id_sede_categoria, departamento, pais, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) 
+                        VALUES ('$categoria', '$departamento', '$pais', '$responsable', '$nro_oficina','$oficina','$direccion','$telefono','$coordenadas', '$interino', '$obs_interino', NOW())");
 
         if (!$db->alter()) {
             echo "Error. " . $db->getError();
         } else {
             echo "Sede registrada correctamente";
         }
-        break;
+    break;
 
     case 'editar':
 
-        $db           = DataBase::conectar();
-        $id           = $db->clearText($_POST['hidden_id']);
-        $categoria    = $db->clearText($_POST['categoria']);
-        $departamento = $db->clearText($_POST['departamento']);
-        $nro_oficina  = $db->clearText($_POST['nro_oficina']);
-        $oficina      = mb_convert_case($db->clearText($_POST['oficina']), MB_CASE_UPPER, "UTF-8");
-        $responsable   = $db->clearText($_POST['responsable']);
-        $interino = ($db->clearText($_POST['interino']))?: 0;
+        $db             = DataBase::conectar();
+        $id             = $db->clearText($_POST['hidden_id']);
+        $categoria      = $db->clearText($_POST['categoria']);
+        $pais           = $db->clearText($_POST['pais']);
+        $departamento   = $db->clearText($_POST['departamento']);
+        $nro_oficina    = $db->clearText($_POST['nro_oficina']);
+        $oficina        = mb_convert_case($db->clearText($_POST['oficina']), MB_CASE_UPPER, "UTF-8");
+        $responsable    = $db->clearText($_POST['responsable']);
+        $interino       = ($db->clearText($_POST['interino']))?: 0;
         $obs_interino    = $db->clearText($_POST['obs_interino']);
-        $direccion    = $db->clearText($_POST['direccion']);
-        $telefono     = $db->clearText($_POST['telefono']);
-        $longitud     = $db->clearText($_POST['lon_proceso']);
-        $latitud      = $db->clearText($_POST['lat_proceso']);
+        $direccion      = $db->clearText($_POST['direccion']);
+        $telefono       = $db->clearText($_POST['telefono']);
+        $longitud       = $db->clearText($_POST['lon_proceso']);
+        $latitud        = $db->clearText($_POST['lat_proceso']);
 
         if (empty($id)) {
             echo "Error. Ingrese el id";
@@ -198,8 +233,13 @@ switch ($q) {
             exit;
         }
 
+        if (empty($pais)) {
+            echo "Error. Ingrese un País";
+            exit;
+        }
+
         if (empty($departamento)) {
-            echo "Error. Ingrese una Departamento";
+            echo "Error. Ingrese un Departamento";
             exit;
         }
 
@@ -226,13 +266,13 @@ switch ($q) {
                 exit;
             }
         }*/
-            $db->setQuery("UPDATE sedes SET id_sede_categoria='$categoria', id_sede_responsable='$responsable',departamento='$departamento',nro_oficina=$nro_oficina,oficina='$oficina',direccion='$direccion',telefono='$telefono',coordenadas='$coordenadas', interino='$interino', obs_interino='$obs_interino' WHERE id_sede=$id");
-            if (!$db->alter()) {
-                echo "Error. " . $db->getError();
-                } else {
-                echo "Sede modificada correctamente";
-                }  
-        break;
+        $db->setQuery("UPDATE sedes SET id_sede_categoria='$categoria', id_sede_responsable='$responsable',departamento='$departamento', pais='$pais',nro_oficina=$nro_oficina,oficina='$oficina',direccion='$direccion',telefono='$telefono',coordenadas='$coordenadas', interino='$interino', obs_interino='$obs_interino' WHERE id_sede=$id");
+        if (!$db->alter()) {
+            echo "Error. " . $db->getError();
+            } else {
+            echo "Sede modificada correctamente";
+        }  
+    break;
 
     case 'eliminar':
 
@@ -254,5 +294,5 @@ switch ($q) {
             echo "Error al eliminar '$nombre'. " . $db->getError();
         }
 
-        break;
+    break;
 }

@@ -3,12 +3,12 @@ include "./router.php";
 // ##################################################
 
 # VARIABLES GLOBALES (DESARROLLO)
-// $localPathIndex = '/registrocivil';
-// $localPath = '/registrocivil/';
+$localPathIndex = '/registrocivil';
+$localPath = '/registrocivil/';
 
-# VARIABLES GLOBALES (PRODUCCIÓN)
-$localPathIndex = '';
-$localPath = '/';
+// # VARIABLES GLOBALES (PRODUCCIÓN)
+// $localPathIndex = '';
+// $localPath = '/';
 
 
 # PAGINA DE INICIO
@@ -18,7 +18,8 @@ get($localPathIndex, 'index.php');
 get($localPath.'socios', 'socios.php');
 get($localPath.'alianzas', 'alianzas.php');
 get($localPath.'comision-directiva', 'comision-directiva.php');
-get($localPath.'autoridades', 'autoridades.php');
+// get($localPath.'autoridades', 'autoridades.php');
+get($localPath.'autoridades', 'autoridades_new.php');
 get($localPath.'contacto', 'contacto.php');
 
 #PUBLICACIONES
@@ -90,6 +91,14 @@ get($localPath.'mas-informacion', 'mas-informacion.php');
 get($localPath.'certificado-electronico', 'certificado_electronico.php');
 get($localPath.'consultar-tramites', 'consultar-tramites.php');
 post($localPath.'consultar-tramites-data', 'inc/consultar-tramites-data.php');
+
+get($localPath.'consultar-expedientes', 'consultar-expedientes.php');
+post($localPath.'consultar-expedientes-data', 'inc/consultar-expedientes-data.php');
+
+
+get($localPath.'consultar-certificados', 'consultar-certificados.php');
+post($localPath.'consultar-certificados-data', 'inc/consultar-certificados-data.php');
+//http://localhost/registrocivil/consultar-certificados?cod=CN1&pass=AUSUADJD
 
 #SEDES
 get($localPath.'sedes/$categoriaSede', 'sedes.php');

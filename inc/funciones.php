@@ -4,7 +4,7 @@ include "mysql.php";
 function url()
 {
     $host = $_SERVER['HTTP_HOST'];
-    return "https://$host/";
+    return "http://$host/registrocivil/";
 }
 
 function obtenerURL() {

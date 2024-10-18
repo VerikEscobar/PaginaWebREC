@@ -1,0 +1,25 @@
+2024-07-23 08:09:35
+Query:  INSERT INTO sedes (id_sede_categoria, departamento, pais, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) 
+                        VALUES ('4', 'PAR&Aacute;', 'BRASIL', '', 'NULL','1','','','46543215, 12121654654', '0', '', NOW())
+Error: Incorrect integer value: '' for column 'id_sede_responsable' at row 1
+---------------------------------------------------
+2024-07-23 08:09:45
+Query:  INSERT INTO sedes (id_sede_categoria, departamento, pais, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) 
+                        VALUES ('4', 'PAR&Aacute;', 'BRASIL', '170', 'NULL','1','','','46543215, 12121654654', '0', '', NOW())
+Error: Incorrect integer value: 'NULL' for column 'nro_oficina' at row 1
+---------------------------------------------------
+2024-07-24 07:35:19
+Query:  INSERT INTO sedes (id_sede_categoria, departamento, pais, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) 
+                        VALUES ('4', 'MISIONES', 'ARGENTINA', '209', 'NULL','OFICINA CONSULAR DE POSADAS','Posadas','','-26.856333, -58.306083', '0', '', NOW())
+Error: Incorrect integer value: 'NULL' for column 'nro_oficina' at row 1
+---------------------------------------------------
+2024-07-24 07:36:14
+Query:  INSERT INTO sedes (id_sede_categoria, departamento, pais, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) 
+                        VALUES ('4', 'MISIONES', 'ARGENTINA', '209', 'NULL','OFICINA CONSULAR DE POSADAS','Posadas','','-26.856333, -58.306083', '0', '', NOW())
+Error: Incorrect integer value: 'NULL' for column 'nro_oficina' at row 1
+---------------------------------------------------
+2024-07-24 07:36:18
+Query:  INSERT INTO sedes (id_sede_categoria, departamento, pais, id_sede_responsable, nro_oficina, oficina, direccion, telefono, coordenadas, interino, obs_interino, creacion) 
+                        VALUES ('4', 'MISIONES', 'ARGENTINA', '209', 'NULL','OFICINA CONSULAR DE POSADAS','Posadas','','-26.856333, -58.306083', '0', '', NOW())
+Error: Incorrect integer value: 'NULL' for column 'nro_oficina' at row 1
+---------------------------------------------------

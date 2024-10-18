@@ -19,11 +19,12 @@ class DataBase extends MySQLi{
     // const DB_PORT = '3306';
 
     // Desarrollo
-    const DB_NAME = 'registrocivil_db';
+    const DB_NAME = 'registrocivil_db2';
     const DB_USER = 'root';
-    const DB_PSW  = 'mBoreVi2019py';
+    const DB_PSW  = '';
     const DB_HOST = 'localhost';
     const DB_PORT = '3306';
+
     
     public function log_db_errors($error, $query)
     {

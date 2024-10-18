@@ -67,6 +67,10 @@ include 'header.php';
                                                             <select id="categoria" name="categoria" class="select2" required></select>
                                                         </div>
                                                         <div class="form-group col-md-12 col-sm-12">
+                                                            <label for="pais">País</label>
+                                                            <select id="pais" name="pais" class="select2" required></select>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
                                                             <label for="departamento">Departamento</label>
                                                             <select id="departamento" name="departamento" class="select2" required></select>
                                                         </div>
@@ -110,7 +114,7 @@ include 'header.php';
                                                         </div>
                                                         <div class="col-md-12 form-group">
                                                             <label for="obs_interino">Observacion</label>
-                                                            <textarea class="form-control input-sm" name="obs_interino" id="obs_interino" readonly></textarea>
+                                                            <textarea class="form-control input-sm" name="obs_interino" id="obs_interino"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -188,6 +192,50 @@ include 'header.php';
         return $result;
     };
 
+    var $id_pais = 0;
+    function paises() {
+        $paises = $('#pais').select2({
+            dropdownParent: $('#modal_principal'),
+            placeholder: 'Buscar País',
+            allowClear: true,
+            language: "es",
+            theme: "bootstrap4",
+            width: 'style',
+            selectOnClose: false,
+            dropdownPosition: 'below',
+            maximumResultsForSearch: 10,
+            ajax: {
+                url: 'inc/sedes-data.php',
+                dataType: 'json',
+                delay: 50,
+                data: function(params) {
+                    return { q: 'ver_paises', term: params.term, page: params.page || 1 }
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.pais,
+                                text: obj.pais,
+                                pais: obj.id_pais,
+                                id_pais: obj.id_pais
+                            };
+                        }),
+                        pagination: { more: (params.page * 5) <= data[0].total_count }
+                    };
+                },
+                cache: true
+            },
+            templateResult: formatResult
+        }).on('select2:select', function (e) {
+            $id_pais = e.params.data.id_pais;
+            console.log($('#pais').val());
+            $('#departamento').val(null).trigger('change');
+        });
+    }
+    paises();
+    
     function departamentos() {
         $departamentos = $('#departamento').select2({
             dropdownParent: $('#modal_principal'),
@@ -204,7 +252,7 @@ include 'header.php';
                 dataType: 'json',
                 delay: 50,
                 data: function(params) {
-                    return { q: 'ver_departamentos', term: params.term, page: params.page || 1 }
+                    return { q: 'ver_departamentos', term: params.term, page: params.page || 1, id_pais: $id_pais }
                 },
                 processResults: function(data, params) {
                     params.page = params.page || 1;
@@ -313,6 +361,7 @@ include 'header.php';
         'click .editar': function(e, value, row, index) {
             resetForm('#formulario');
             $('#categoria').val('').trigger('change');
+            $('#pais').val('').trigger('change');
             $('#departamento').val('').trigger('change');
             $('#responsable').val('').trigger('change');
             $('#modalLabel').html('Editar Categoria');
@@ -337,6 +386,9 @@ include 'header.php';
             
             $("#departamento").select2('trigger', 'select', {
                 data: { id: row.departamento, text: row.departamento }
+            });
+            $("#pais").select2('trigger', 'select', {
+                data: { id: row.pais, text: row.pais }
             });
             $("#responsable").select2('trigger', 'select', {
                 data: { id: row.id_sede_responsable, text: row.nombre }
@@ -433,6 +485,7 @@ include 'header.php';
                 { field: 'id_sede', align: 'center', valign: 'middle', title: 'ID', sortable: true, visible: false },
                 { field: 'nro_oficina', align: 'left', valign: 'middle', title: 'Nro. Oficina', sortable: true },
                 { field: 'oficina', align: 'left', valign: 'middle', title: 'Oficina', sortable: true },
+                { field: 'pais', align: 'left', valign: 'middle', title: 'País', sortable: true },
                 { field: 'departamento', align: 'left', valign: 'middle', title: 'Departamento', sortable: true },
                 { field: 'categoria', align: 'left', valign: 'middle', title: 'Categoria', sortable: true },
                 { field: 'nombre_estado', align: 'center', width: 80, valign: 'middle', title: 'Estado', sortable: true, formatter: colorEstado },
@@ -504,6 +557,7 @@ include 'header.php';
         $(document).find('form').trigger('reset');
         $("#mensaje_modal").html("");
         $('#categoria').val('').trigger('change');
+        $('#pais').val('').trigger('change');
         $('#departamento').val('').trigger('change');
         $('#responsable').val('').trigger('change');
     }

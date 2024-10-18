@@ -6,6 +6,26 @@ body {
     color: #000000;
 }
 
+.logo_justicia{
+    padding-top: 5px;
+    width: 380px;
+}
+
+.maps-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    padding-left: 0px;
+    padding-right: 20px;
+    width: 100%;
+    height: 150px; 
+}
+
+.maps-logo img {
+    width: 270px;
+    height: 130px;
+}
 /* ///////////////////BOTÓN 3D 2/////////////////// */
 
 .btn:focus,
@@ -46,6 +66,11 @@ body {
     .portada {
         margin-top: 0 !important;
     }
+
+    .maps-logo {
+        padding-left: 40px;
+    }
+        
 }
 
 .btn:focus,
@@ -295,8 +320,8 @@ element.style {}
 }
 
 .padding-arriba {
-    padding-top: 100px;
-    padding-bottom: 20px;
+    padding-top: 70px;
+    padding-bottom: 70px;
 }
 
 .darle-padding {
@@ -786,9 +811,7 @@ div#preloader {
 .main-menu-three #main-navigation-wrapper .navbar-nav>li>.dropdown-submenu {
     border-top: 2px solid #EA2428;
 }
-.intro-carousel {
-padding-top: 6.5rem;
-}
+
 .intro-carousel.owl-carousel.owl-theme:hover .owl-controls .owl-nav div.owl-next:hover,
 .intro-carousel.owl-carousel.owl-theme:hover .owl-controls .owl-nav div.owl-prev:hover {
     color: #fff;
@@ -1145,7 +1168,7 @@ label {
 
 .layer-1-2 h1 {
     color: #ffffff;
-    text-shadow: 0 0 3px #131304, 0 0 3px #292f33;
+    text-shadow: 0 0 3px #131304, 0 0 3px #ffff;
     font-size: 42px;
     font-weight: 700;
     line-height: 60px;
@@ -1202,8 +1225,20 @@ label {
     color: #FFF;
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1600px) {
+    .intro-carousel {
+        padding-top: 6.8rem;
+    }
+    .contiene {
+        width: 285px;
+        height: 370px;
+    }
+}
 
+@media screen and (max-width: 1400px) {
+    .intro-carousel {
+        padding-top: 6.5rem;
+    }
     .contiene {
         width: 285px;
         height: 370px;
@@ -1211,7 +1246,9 @@ label {
 }
 
 @media screen and (max-width: 1300px) {
-
+    .intro-carousel {
+        padding-top: 6rem;
+    }
     .contiene {
         width: 275px;
         height: 350px;
@@ -1219,6 +1256,11 @@ label {
 }
 
 @media screen and (max-width: 1199px) {
+
+    .intro-carousel {
+        padding-top: 6rem;
+    }
+
     .breadcrumb {
         padding: 90px 0px 30px 0px;
         background-color: transparent;
@@ -1240,7 +1282,7 @@ label {
     }
 
     .padding-arriba {
-        padding-top: 160px;
+        
         padding-bottom: 20px;
     }
 
@@ -1261,6 +1303,11 @@ label {
 }
 
 @media screen and (max-width: 992px) {
+    
+    .intro-carousel {
+        padding-top: 0rem;
+    }
+
     .main-menu-one #main-navigation-wrapper .logo {
         margin: 20px 28px 20px 0px;
         max-width: 150px;
@@ -1286,7 +1333,6 @@ label {
     }
 
     .padding-arriba {
-        padding-top: 190px;
         padding-bottom: 20px;
     }
 
@@ -1298,8 +1344,6 @@ label {
 
         padding-top: 0rem;
     }
-
-
 }
 
 
@@ -1369,11 +1413,25 @@ label {
     }
 
     .main-menu-three #main-navigation-wrapper {
-        background: #0e2050;
+        background: #EA2428;
         border-radius: 0;
         border: none;
         margin-bottom: 0;
     }
+    .iconoflecha {
+        float: right;
+        margin-top: 0.6rem;
+        color: #FFF;
+    }
+    .main-menu-three #main-navigation-wrapper .dropdown-submenu>li>a {
+    color: rgb(255 255 255);
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    transition: .5s ease-in-out;
+}
 }
 
 @media screen and (max-width: 700px) {
@@ -1383,7 +1441,7 @@ label {
         border: none;
         content: "\f078";
         top: 15px;
-        color: #0e2050;
+        color: #ffff;
         right: 27px;
     }
 
@@ -1467,14 +1525,14 @@ label {
     }
 
     .main-menu-three #main-navigation-wrapper {
-        background: #ffffff;
+        background: #EA2428;
         border-radius: 0;
         border: none;
         margin-bottom: 0;
     }
 
     .main-menu-three #main-navigation-wrapper .nav>li>a {
-        color: #0e2050;
+        color: #ffff;
     }
 
     .navbar {

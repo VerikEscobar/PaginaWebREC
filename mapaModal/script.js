@@ -46,13 +46,13 @@ function dibujarMapa(latit, longit, nombreMapa) {
 
     /*MODIFICA LA POSICION DEL MARCADOR EN DOBLE CLICK*/
     /* myMap.on('dblclick', e => { */
-    myMap.on('click', e => {
-        let latlong = myMap.mouseEventToLatLng(e.originalEvent);
-        marcador.setLatLng([latlong.lat, latlong.lng])
-        console.log('Latitud: ' + latlong.lat + ', Longitud: ' + latlong.lng);
-        campoLatitud.val(latlong.lat);
-        campoLongitud.val(latlong.lng);
-    });
+    // myMap.on('click', e => {
+    //     let latlong = myMap.mouseEventToLatLng(e.originalEvent);
+    //     marcador.setLatLng([latlong.lat, latlong.lng])
+    //     console.log('Latitud: ' + latlong.lat + ', Longitud: ' + latlong.lng);
+    //     campoLatitud.val(latlong.lat);
+    //     campoLongitud.val(latlong.lng);
+    // });
 
     /* VERIFICA LA LATITUD Y LONGITUD CUANDO SE MUEVE EL PUNTERO */
     marcador.on("moveend", e => {
@@ -71,13 +71,12 @@ function cargarMapa() {
             /* SI ENCUENTRA GEOLOCALIZACION LA PINTA EN ESA LAT Y LNG */
             var { coords } = pos
             dibujarMapa(coords.latitude, coords.longitude, 'myMap');
-
+            
         },
         (err) => {
             /* SI NO ENCUENTRA GEOLOCALIZACION PINTA EN UN PUNTO FIJO */
             console.log(err);
-            dibujarMapa('-25.318227', '-57.572979', 'myMap');
-
+            dibujarMapa(-25.319955, -57.591397, 'myMap');
         }, {
         enableHighAccuracy: true,
         timeout: 5000,

@@ -20,10 +20,10 @@ if (isset($_GET['categoria']) && !empty($_GET['categoria'])) {
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $search = $db->clearText($_GET['search']);
-    $where  = "AND CONCAT_WS(' ', s.departamento, s.nro_oficina, s.oficina) LIKE '%$search%'";
+    $where  = "AND CONCAT_WS(' ', s.departamento, s.nro_oficina, s.oficina, s.pais) LIKE '%$search%'";
 }
 
-$query = "SELECT SQL_CALC_FOUND_ROWS s.id_sede, s.departamento, s.id_sede_responsable, nombre, cargo, s.nro_oficina, s.oficina, s.coordenadas, sr.telefono, sr.foto, s.direccion, s.telefono, s.obs_interino
+$query = "SELECT SQL_CALC_FOUND_ROWS s.id_sede, s.pais, s.departamento, s.id_sede_responsable, nombre, cargo, s.nro_oficina, s.oficina, s.coordenadas, sr.telefono, sr.foto, s.direccion, s.telefono, s.obs_interino
 FROM sedes s
 LEFT JOIN sedes_responsables sr ON sr.id_sede_responsable = s.id_sede_responsable  AND sr.estado =1
 WHERE 1=1 AND s.estado=1 $where $wherecategoria

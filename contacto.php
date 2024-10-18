@@ -73,6 +73,7 @@ include 'head.php';
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <textarea id="mensaje" rows="5" name="mensaje" placeholder="Mensaje" class="form-control opaco"></textarea>
                                 </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 g-recaptcha mt-2" data-sitekey="6LfbkEYUAAAAAHSiRWWW-hDV-8mzbMXDDyKbn5cJ"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center mt-2">
                                     <button type="submit" id="submit" class="load-more-btn">Enviar</button>
                                 </div>

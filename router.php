@@ -28,7 +28,7 @@ function any($route, $path_to_include)
 }
 function route($route, $path_to_include)
 {
-    $ROOT = $_SERVER['DOCUMENT_ROOT'] . "";
+    $ROOT = $_SERVER['DOCUMENT_ROOT'] . "/registrocivil";
 
     if ($route == "error/404") {
         include_once "$ROOT/$path_to_include";

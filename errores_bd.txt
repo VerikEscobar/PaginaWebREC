@@ -1,0 +1,152 @@
+2023-08-29 07:21:18
+Query: Error en la conexion
+Error: Access denied for user 'root'@'localhost' (using password: YES)
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT
+  m.id_menu_pagina,
+  IFNULL (m.id_menu_padre, 0) AS id_menu_padre,
+  m.menu,
+  m.url,
+  m.url_tipo,
+  m.url_target,
+  m.orden
+FROM
+  menus_pagina m
+WHERE m.estado = 1 AND m.tipo = 1
+UNION
+SELECT
+  mp.id_menu_pagina,
+  IFNULL (mp.id_menu_padre, 0) AS id_menu_padre,
+  mp.menu,
+  mp.url,
+  mp.url_tipo,
+  mp.url_target,
+  mp.orden
+FROM
+  menus_pagina m
+  JOIN menus_pagina mp
+    ON m.id_menu_padre = mp.id_menu_pagina
+WHERE mp.estado = 1 AND mp.tipo = 1
+ORDER BY orden
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT url, imagen, titulo, descripcion,url_nombre
+                    FROM banner
+                    WHERE estado=1 AND orden&gt;0 and orden&lt;=5
+                    ORDER BY orden
+                    LIMIT 5
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT id_boton, titulo, url, estado 
+FROM botones
+WHERE 1=1 AND estado=1
+ORDER BY id_boton
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SET lc_time_names = 'es_ES';
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT
+  n.id_noticia,
+  n.titulo,
+  n.copete,
+  n.descripcion,
+  nf.foto
+FROM
+  noticias n
+  INNER JOIN noticias_fotos nf
+    ON nf.id_noticia = n.id_noticia
+WHERE n.estado = 1
+  AND n.destacado = 1
+GROUP BY n.id_noticia
+ORDER BY n.fecha_noticia DESC LIMIT 3
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT
+  m.id_menu_pagina,
+  IFNULL (m.id_menu_padre, 0) AS id_menu_padre,
+  m.menu,
+  m.url,
+  m.url_tipo,
+  m.url_target,
+  m.orden
+FROM
+  menus_pagina m
+WHERE m.estado = 1 AND m.tipo = 2
+UNION
+SELECT
+  mp.id_menu_pagina,
+  IFNULL (mp.id_menu_padre, 0) AS id_menu_padre,
+  mp.menu,
+  mp.url,
+  mp.url_tipo,
+  mp.url_target,
+  mp.orden
+FROM
+  menus_pagina m
+  JOIN menus_pagina mp
+    ON m.id_menu_padre = mp.id_menu_pagina
+WHERE mp.estado = 1 AND mp.tipo = 2
+ORDER BY orden + 1
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT f.id_footer, f.descripcion, f.estado 
+FROM footer f
+WHERE 1=1 AND f.estado=1
+ORDER BY f.id_footer
+Error: 
+---------------------------------------------------
+2023-08-29 07:21:18
+Query: SELECT rs.id_red_social, rs.titulo, rs.url, rs.icono, rs.estado 
+FROM redes_sociales rs
+WHERE 1=1 AND rs.estado=1
+ORDER BY rs.id_red_social
+Error: 
+---------------------------------------------------
+2023-09-04 07:59:23
+Query: SELECT * FROM log_impresiones li WHERE li.c_token = A1JF2AC27S
+Error: Table 'registrocivil_db2.log_impresiones' doesn't exist
+---------------------------------------------------
+2023-09-04 08:00:08
+Query: SELECT * FROM log_impresiones li WHERE li.c_token = A1JF2AC27S
+Error: Unknown column 'A1JF2AC27S' in 'where clause'
+---------------------------------------------------
+2023-09-04 08:39:21
+Query: SELECT * FROM log_impresiones li WHERE li.c_token = A1JF2AC27S
+Error: Unknown column 'A1JF2AC27S' in 'where clause'
+---------------------------------------------------
+2023-09-04 08:40:20
+Query: SELECT * FROM log_impresiones li WHERE li.c_token = A1JF2AC27S
+Error: Unknown column 'A1JF2AC27S' in 'where clause'
+---------------------------------------------------
+2023-09-04 08:41:39
+Query: SELECT * FROM log_impresiones li WHERE li.c_token = A1JF2AC27S
+Error: Unknown column 'A1JF2AC27S' in 'where clause'
+---------------------------------------------------
+2023-09-04 08:42:02
+Query: SELECT li.id FROM log_impresiones li WHERE li.c_token = A1JF2AC27S
+Error: Unknown column 'A1JF2AC27S' in 'where clause'
+---------------------------------------------------
+2023-09-07 07:30:07
+Query: SELECT li.id FROM log_impresiones li WHERE li.c_impresion = CN1 AND li.c_token = 'A1JF2AC27S'
+Error: Unknown column 'CN1' in 'where clause'
+---------------------------------------------------
+2023-09-07 07:30:25
+Query: SELECT li.id FROM log_impresiones li WHERE li.c_impresion = CN1 AND li.c_token = 'A1JF2AC27S'
+Error: Unknown column 'CN1' in 'where clause'
+---------------------------------------------------
+2024-07-24 07:06:55
+Query: SELECT SQL_CALC_FOUND_ROWS s.id_sede, s,pais,s.departamento, s.id_sede_responsable, nombre, cargo, s.nro_oficina, s.oficina, s.coordenadas, sr.telefono, sr.foto, s.direccion, s.telefono, s.obs_interino
+FROM sedes s
+LEFT JOIN sedes_responsables sr ON sr.id_sede_responsable = s.id_sede_responsable  AND sr.estado =1
+WHERE 1=1 AND s.estado=1  AND s.id_sede_categoria = 4
+ORDER BY s.departamento, s.nro_oficina ASC LIMIT 0, 10
+Error: Unknown column 's' in 'field list'
+---------------------------------------------------

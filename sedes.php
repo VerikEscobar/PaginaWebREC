@@ -96,6 +96,9 @@ include 'head.php';
                                             <a href="#" id="cargo"><i class="fa fa-pencil"></i><span></span></a>
                                         </div>
                                     </div>
+                                    <div class="row maps-logo">
+                                    <a href="#" id="maps-link" target="_blank"><img src="http://registrocivil.gov.py/img/img-maps_2.jpeg" alt="Imagen"></td></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -136,6 +139,9 @@ include 'head.php';
                 var log = coordenadas[1];
                 //googleMaps('mapa_carga', lat, log);
                 BuscarEnMapa(lat, log);
+                var mapsLink = 'https://www.google.com/maps/search/' + lat + ',' + log + '?sa=X&ved=1t:242&ictx=111';
+                // Asignar el enlace al atributo href del <a>
+                document.getElementById('maps-link').href = mapsLink;
             } else {
                 //googleMaps('mapa_carga', '-25.305515819286462', '-57.61126781015959');
                 dibujarMapa('-25.305515819286462', '-57.61126781015959', 'myMap');
@@ -191,15 +197,22 @@ include 'head.php';
         },
 
     }
+    let nombre_dpto = "DEPARTAMENTO";
+    var pais_tabla = false;
+    if (categoria == 4) {
+        pais_tabla = true;
+        nombre_dpto = "LOCALIDAD";
+    }
 
     $('#tabla').bootstrapTable({
         mobileResponsive: true,
-        sortName: "s.departamento, s.nro_oficina",
+        sortName: "s.pais, s.departamento, s.nro_oficina",
         sortOrder: 'ASC',
         columns: [
-            { field: 'nro_oficina', align: 'left', valign: 'middle', title: 'Nº de oficina', sortable: true, visible: true },
+            { field: 'nro_oficina', align: 'left', valign: 'middle', title: 'Nº de Oficina', sortable: true, visible: true },
             { field: 'oficina', align: 'left', valign: 'middle', title: 'OFICINA', sortable: true, visible: true },
-            { field: 'departamento', align: 'center', valign: 'middle', title: 'DEPARTAMENTO', sortable: false, width: 150, visible: true },
+            { field: 'pais', align: 'center', valign: 'middle', title: 'PAIS', sortable: false, width: 150, visible: pais_tabla},
+            { field: 'departamento', align: 'center', valign: 'middle', title: nombre_dpto, sortable: false, width: 150, visible: true },
             { field: 'ver', align: 'center', valign: 'middle', width: 150, title: '', sortable: false, formatter: icoFilaEditar, events: filaVer },
             { field: 'coordenadas', visible: false },
             { field: 'direccion', visible: false },

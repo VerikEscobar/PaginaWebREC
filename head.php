@@ -95,7 +95,11 @@ if ($categoriaSede) {
     if ($categoriaSede == "coordinacion-departamentales") {
         $categoriaSede = 1;
     }else{
-        $categoriaSede = 2;
+        if($categoriaSede == "oficinas-registrales"){
+            $categoriaSede = 2;
+        }else{
+            $categoriaSede = 4;
+        }
     }
 }
 
